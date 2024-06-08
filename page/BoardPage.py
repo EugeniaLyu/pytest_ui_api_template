@@ -67,6 +67,9 @@ class BoardPage:
     @allure.step("Редактирование карточки")
     def update_card(self):
         self.__driver.find_element(By.CSS_SELECTOR, "div[data-testid=trello-card]")
+        self.__driver.find_element(
+            By.CSS_SELECTOR, "span[data-testid=CloseIcon]"
+        ).click()
         button = WebDriverWait(self.__driver, 10).until(
             EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, "button[data-testid=quick-card-editor-button]")
@@ -74,9 +77,10 @@ class BoardPage:
         )
         button.click()
         self.__driver.find_element(
-            By.CSS_SELECTOR, "button[data-testid=quick-card-editor-button]"
+            By.CSS_SELECTOR, "button[data-testid=quick-card-editor-edit-labels]"
         ).click
-        self.__driver.find_element(By.CSS_SELECTOR, 'span[data-color="green"]').click()
+        time.sleep(5)
+        self.__driver.find_element(By.CSS_SELECTOR, "span[data-color=green]").click()
         self.__driver.find_element(By.CSS_SELECTOR, "button.ZmHvmWkNGCxkHa").click()
 
     @allure.step("Проверить цвет метки")
@@ -85,3 +89,13 @@ class BoardPage:
             By.CSS_SELECTOR, "span[data-testid=compact-card-label]"
         ).value_of_css_property("background-color")
         return label
+
+    @allure.step("Перемещение карточки в другую колонку")
+    def drag_card(self):
+        draggable = self.__driver.find_element(
+            By.CSS_SELECTOR, "div[data-testid=trello-card]"
+        )
+        droppable = self.__driver.find_elements(
+            By.CSS_SELECTOR, "div[data-testid=list]"
+        )[1]
+        ActionChains().drag_and_drop(draggable, droppable).perform()
