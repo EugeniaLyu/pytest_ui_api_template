@@ -6,6 +6,8 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 from api.BoardApi import BoardApi
+from api.CardApi import CardApi
+
 
 @pytest.fixture
 def browser():
@@ -17,6 +19,7 @@ def browser():
 
     with allure.step("Закрыть браузер"):
         browser.quit()
+
 
 @pytest.fixture
 def api_client() -> BoardApi:
@@ -54,3 +57,12 @@ def delete_board() -> str:
         "ATTAf39f231f0d7859becbad77974bc15277249040240cc55ccbe9f16bc1280a3ba25F6B5E71",
     )
     api.delete_board_by_id(dictionary.get("board_id"))
+
+
+@pytest.fixture
+def api_client_card() -> CardApi:
+    return CardApi(
+        "https://api.trello.com/1",
+        "a9c159f465214bde276eb86d8140e0b7",
+        "ATTAf39f231f0d7859becbad77974bc15277249040240cc55ccbe9f16bc1280a3ba25F6B5E71",
+    )
