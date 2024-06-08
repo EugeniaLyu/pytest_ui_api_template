@@ -3,7 +3,10 @@ from page.AuthPage import AuthPage
 from page.MainPage import MainPage
 from page.BoardPage import BoardPage
 
+# import pytest
 
+
+# @pytest.mark.skip
 def auth_test(browser):
     email = "ximonix338@javnoi.com"
     password = "Solo41pharM62@"
@@ -50,11 +53,13 @@ def auth_test(browser):
             assert info == title_card
 
     board_page.update_card()
-    # info = board_page.get_color_label_info()
+    info = board_page.get_color_label_info()
 
-    # with allure.step("Проверить цвет метки"):
-    #     with allure.step("Должен быть цвет " + color):
-    #         assert info == color
+    with allure.step("Проверить цвет метки"):
+        with allure.step("Должен быть цвет " + color):
+            assert info == color
+
+    board_page.drag_card()
 
     board_page.delete_board()
     info = board_page.get_close_board_info()
