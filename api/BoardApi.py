@@ -20,6 +20,19 @@ class BoardApi:
 
         return resp.json().get("boards")
 
+    def get_all_lists_by_board_id(self, id: str) -> list:
+        path = "{trello}/boards/{board_id}/lists".format(
+            trello=self.base_url, board_id=id
+        )
+
+        query = {
+            "key": self.key,
+            "token": self.token,
+        }
+        resp = requests.get(path, params=query)
+
+        return resp.json()[0]["id"]
+
     def create_board(self, name: str, default_list=True) -> dict:
 
         body = {
