@@ -46,6 +46,19 @@ class CardApi:
 
         return resp.json()
 
+    def update_card_by_id(self, card_id: str, id_list: str) -> dict:
+        path = "{trello}/cards/{id}".format(trello=self.base_url, id=card_id)
+
+        body = {
+            "idList": id_list,
+            "key": self.key,
+            "token": self.token,
+        }
+
+        resp = requests.put(path, params=body)
+
+        return resp.json()
+
     def delete_card_by_id(self, card_id: str):
         path = "{trello}/cards/{id}".format(trello=self.base_url, id=card_id)
 
@@ -57,3 +70,4 @@ class CardApi:
         resp = requests.delete(path, params=query)
 
         return resp.json()
+
