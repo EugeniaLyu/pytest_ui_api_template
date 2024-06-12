@@ -7,13 +7,14 @@ from page.BoardPage import BoardPage
 
 
 # @pytest.mark.skip
-def auth_test(browser):
-    email = "ximonix338@javnoi.com"
-    password = "Solo41pharM62@"
-    username = "Евгения"
+def auth_test(browser, test_data: dict):
+    email = test_data.get("email")
+    password = test_data.get("password")
+    username = test_data.get("username")
     title_board = "Тестовая доска"
     text = """Эта доска закрыта. Чтобы изменить доску, ее нужно открыть.
 Открыть доску заново"""
+    title_list = "Тестовый список"
     title_card = "Тестовая карточка"
     color = "rgba(33, 110, 78, 1)"
 
@@ -44,6 +45,13 @@ def auth_test(browser):
     with allure.step("Проверить данные новой доски"):
         with allure.step("Имя доски должно быть " + title_board):
             assert info == title_board
+
+    board_page.add_list_name(title_list)
+    info = board_page.get_list_info()
+
+    with allure.step("Проверить данные листа"):
+        with allure.step("Должна быть строка " + title_list):
+            assert info == title_list
 
     board_page.add_card(title_card)
     info = board_page.get_card_info()
