@@ -33,6 +33,19 @@ class BoardApi:
 
         return resp.json()[0]["id"]
 
+    def create_list_by_board_id(self, name: str, board_id: str) -> list:
+        path = "{trello}/lists".format(trello=self.base_url)
+
+        query = {
+            "name": name,
+            "idBoard": board_id,
+            "key": self.key,
+            "token": self.token,
+        }
+        resp = requests.post(path, params=query)
+
+        return resp.json()
+
     def create_board(self, name: str, default_list=True) -> dict:
 
         body = {
@@ -55,3 +68,4 @@ class BoardApi:
         resp = requests.delete(path, params=query)
 
         return resp.json()
+
