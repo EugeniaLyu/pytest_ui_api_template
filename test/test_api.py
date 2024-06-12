@@ -1,10 +1,10 @@
 from api.BoardApi import BoardApi
 from api.CardApi import CardApi
 
-import pytest
+# import pytest
 
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_create_board(api_client: BoardApi, delete_board: dict, test_data: dict):
     board_list_before = api_client.get_all_boards_by_org_id(test_data.get("org_id"))
 
@@ -16,7 +16,7 @@ def test_create_board(api_client: BoardApi, delete_board: dict, test_data: dict)
     assert len(board_list_after) - len(board_list_before) == 1
 
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_delete_board(api_client: BoardApi, dummy_board_id: str, test_data: dict):
     board_list_before = api_client.get_all_boards_by_org_id(test_data.get("org_id"))
 
@@ -27,7 +27,7 @@ def test_delete_board(api_client: BoardApi, dummy_board_id: str, test_data: dict
     assert len(board_list_before) - len(board_list_after) == 1
 
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_create_card(
     api_client: BoardApi, api_client_card: CardApi, dummy_board_id: str
 ):
@@ -44,7 +44,7 @@ def test_create_card(
     assert len(card_list_after) - len(card_list_before) == 1
 
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_create_a_new_label(
     api_client: BoardApi, api_client_card: CardApi, dummy_board_id: str
 ):
@@ -62,7 +62,7 @@ def test_create_a_new_label(
     assert new_label["color"] == color
 
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_delete_card(
     api_client: BoardApi, api_client_card: CardApi, dummy_board_id: str
 ):
