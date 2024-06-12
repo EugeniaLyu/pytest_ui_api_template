@@ -63,6 +63,22 @@ def test_create_a_new_label(
 
 
 # @pytest.mark.skip
+def test_update_card(
+    api_client: BoardApi, api_client_card: CardApi, dummy_board_id: str
+):
+    id_list = api_client.get_all_lists_by_board_id(dummy_board_id)
+
+    card = api_client_card.create_card("Тестовая карточка", id_list)
+    id_card = card["id"]
+
+    new_list = api_client.create_list_by_board_id("Тестовый лист", dummy_board_id)
+
+    update_card = api_client_card.update_card_by_id(id_card, new_list)
+
+    assert update_card["idList"] == new_list["id"]
+
+
+# @pytest.mark.skip
 def test_delete_card(
     api_client: BoardApi, api_client_card: CardApi, dummy_board_id: str
 ):
