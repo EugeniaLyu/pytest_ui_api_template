@@ -64,10 +64,9 @@ class CardApi:
 
         query = {
             "key": self.key,
-            "token": self.key,
+            "token": self.token,
         }
 
         resp = requests.delete(path, params=query)
 
         return resp.json()
-
