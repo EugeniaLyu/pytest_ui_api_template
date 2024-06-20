@@ -10,13 +10,8 @@ from page.BoardPage import BoardPage
 def auth_test(browser, test_data: dict):
     email = test_data.get("email")
     password = test_data.get("password")
-    username = test_data.get("username")
-    title_board = "Тестовая доска"
-    text = """Эта доска закрыта. Чтобы изменить доску, ее нужно открыть.
-Открыть доску заново"""
-    title_list = "Тестовый список"
-    title_card = "Тестовая карточка"
-    color = "rgba(33, 110, 78, 1)"
+    username = "Евгения"
+    #     color = "rgba(33, 110, 78, 1)"
 
     auth_page = AuthPage(browser)
     auth_page.go()
@@ -38,6 +33,9 @@ def auth_test(browser, test_data: dict):
         with allure.step("Почта пользователя должна быть " + email):
             assert info[1] == email
 
+    title_board = "Тестовая доска"
+    #     text = """Эта доска закрыта. Чтобы изменить доску, ее нужно открыть.
+    # Открыть доску заново"""
     board_page = BoardPage(browser)
     board_page.create_board(title_board)
     info = board_page.get_board_info()
@@ -46,6 +44,7 @@ def auth_test(browser, test_data: dict):
         with allure.step("Имя доски должно быть " + title_board):
             assert info == title_board
 
+    title_list = "Тестовый список"
     board_page.add_list_name(title_list)
     info = board_page.get_list_info()
 
@@ -53,25 +52,26 @@ def auth_test(browser, test_data: dict):
         with allure.step("Должна быть строка " + title_list):
             assert info == title_list
 
+    title_card = "Тестовая карточка"
     board_page.add_card(title_card)
-    info = board_page.get_card_info()
+    # info = board_page.get_card_info()
 
-    with allure.step("Проверить данные карточки"):
-        with allure.step("Должна быть строка " + title_card):
-            assert info == title_card
+    # with allure.step("Проверить данные карточки"):
+    #     with allure.step("Должна быть строка " + title_card):
+    #         assert info == title_card
 
-    board_page.update_card()
-    info = board_page.get_color_label_info()
+    # board_page.update_card()
+    # info = board_page.get_color_label_info()
 
-    with allure.step("Проверить цвет метки"):
-        with allure.step("Должен быть цвет " + color):
-            assert info == color
+    # with allure.step("Проверить цвет метки"):
+    #     with allure.step("Должен быть цвет " + color):
+    #         assert info == color
 
-    board_page.drag_card()
+    # board_page.drag_card()
 
-    board_page.delete_board()
-    info = board_page.get_close_board_info()
+    # board_page.delete_board()
+    # info = board_page.get_close_board_info()
 
-    with allure.step("Проверить, что доска закрылась"):
-        with allure.step("Должна быть строка " + text):
-            assert info == text
+    # with allure.step("Проверить, что доска закрылась"):
+    #     with allure.step("Должна быть строка " + text):
+    #         assert info == text

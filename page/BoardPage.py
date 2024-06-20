@@ -48,8 +48,30 @@ class BoardPage:
         text = self.__driver.find_element(By.CSS_SELECTOR, "div.xJP6EH9jYQiWkk").text
         return text
 
+    @allure.step("Добавление листа на доску")
+    def add_list_name(self, title: str):
+        self.__driver.find_element(
+            By.CSS_SELECTOR, "textarea[data-testid=list-name-textarea]"
+        ).send_keys(title)
+        self.__driver.find_element(
+            By.CSS_SELECTOR, "button[data-testid=list-composer-add-list-button]"
+        ).click()
+        self.__driver.find_element(
+            By.CSS_SELECTOR, "span[data-testid=CloseIcon]"
+        ).click()
+
+    @allure.step("Прочитать заголовк листа")
+    def get_list_info(self) -> str:
+        title = self.__driver.find_element(
+            By.CSS_SELECTOR, "h2[data-testid=list-name]"
+        ).text
+        return title
+
     @allure.step("Добавление карточки на доску")
     def add_card(self, title: str):
+        self.__driver.find_element(
+            By.CSS_SELECTOR, "button[data-testid=list-add-card-button]"
+        ).click()
         self.__driver.find_element(
             By.CSS_SELECTOR, "textarea[data-testid=list-card-composer-textarea]"
         ).send_keys(title)
@@ -66,22 +88,27 @@ class BoardPage:
 
     @allure.step("Редактирование карточки")
     def update_card(self):
-        self.__driver.find_element(By.CSS_SELECTOR, "div[data-testid=trello-card]")
         self.__driver.find_element(
             By.CSS_SELECTOR, "span[data-testid=CloseIcon]"
         ).click()
-        button = WebDriverWait(self.__driver, 10).until(
-            EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, "button[data-testid=quick-card-editor-button]")
-            )
-        )
-        button.click()
         self.__driver.find_element(
-            By.CSS_SELECTOR, "button[data-testid=quick-card-editor-edit-labels]"
-        ).click
-        time.sleep(5)
-        self.__driver.find_element(By.CSS_SELECTOR, "span[data-color=green]").click()
-        self.__driver.find_element(By.CSS_SELECTOR, "button.ZmHvmWkNGCxkHa").click()
+            By.CSS_SELECTOR, "div[data-testid=trello-card]"
+        ).click()
+        self.__driver.find_element(
+            By.CSS_SELECTOR, "button[data-testid=quick-card-editor-button]"
+        ).click()
+        WebDriverWait(self.__driver, 10).until(
+            EC.visibility_of_element_located(
+                (By.CSS_SELECTOR, "button[data-testid=quick-card-editor-edit-labels]")
+            )
+        ).click()
+        time.sleep(10)
+        WebDriverWait(self.__driver, 10).until(
+            EC.visibility_of_element_located(
+                (By.CSS_SELECTOR, "span[data-color=green]")
+            )
+        ).click()
+        # self.__driver.find_element(By.CSS_SELECTOR, "button.ZmHvmWkNGCxkHa").click()
 
     @allure.step("Проверить цвет метки")
     def get_color_label_info(self) -> str:
