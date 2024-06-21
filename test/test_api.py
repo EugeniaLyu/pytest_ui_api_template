@@ -76,6 +76,8 @@ def test_update_card(
 
     update_card = api_client_card.update_card_by_id(id_card, id_list)
 
+    api_client.delete_board_by_id(dummy_board_id)
+
     assert update_card["idList"] == new_list["id"]
 
 
@@ -93,5 +95,7 @@ def test_delete_card(
     api_client_card.delete_card_by_id(id_card)
 
     card_list_after = api_client_card.get_all_cards_by_board_id(dummy_board_id)
+
+    api_client.delete_board_by_id(dummy_board_id)
 
     assert len(card_list_before) - len(card_list_after) == 1

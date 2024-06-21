@@ -11,7 +11,6 @@ def auth_test(browser, test_data: dict):
     email = test_data.get("email")
     password = test_data.get("password")
     username = "Евгения"
-    #     color = "rgba(33, 110, 78, 1)"
 
     auth_page = AuthPage(browser)
     auth_page.go()
@@ -33,9 +32,19 @@ def auth_test(browser, test_data: dict):
         with allure.step("Почта пользователя должна быть " + email):
             assert info[1] == email
 
-    title_board = "Тестовая доска"
-    #     text = """Эта доска закрыта. Чтобы изменить доску, ее нужно открыть.
-    # Открыть доску заново"""
+
+def board_test(browser, test_data: dict):
+    email = test_data.get("email")
+    password = test_data.get("password")
+
+    auth_page = AuthPage(browser)
+    auth_page.go()
+    auth_page.login_as(email, password)
+
+    main_page = MainPage(browser)
+    main_page.open_menu()
+
+    title_board = "Тестовая доска 1"
     board_page = BoardPage(browser)
     board_page.create_board(title_board)
     info = board_page.get_board_info()
@@ -44,34 +53,82 @@ def auth_test(browser, test_data: dict):
         with allure.step("Имя доски должно быть " + title_board):
             assert info == title_board
 
-    title_list = "Тестовый список"
-    board_page.add_list_name(title_list)
-    info = board_page.get_list_info()
 
-    with allure.step("Проверить данные листа"):
-        with allure.step("Должна быть строка " + title_list):
-            assert info == title_list
+def card_test(browser, test_data: dict):
+    email = test_data.get("email")
+    password = test_data.get("password")
 
-    title_card = "Тестовая карточка"
+    auth_page = AuthPage(browser)
+    auth_page.go()
+    auth_page.login_as(email, password)
+
+    board_page = BoardPage(browser)
+
+    title_card = "Тестовая карточка 1"
     board_page.add_card(title_card)
-    # info = board_page.get_card_info()
+    info = board_page.get_card_info()
 
-    # with allure.step("Проверить данные карточки"):
-    #     with allure.step("Должна быть строка " + title_card):
-    #         assert info == title_card
+    with allure.step("Проверить данные карточки"):
+        with allure.step("Должна быть строка " + title_card):
+            assert info == title_card
 
-    # board_page.update_card()
-    # info = board_page.get_color_label_info()
 
-    # with allure.step("Проверить цвет метки"):
-    #     with allure.step("Должен быть цвет " + color):
-    #         assert info == color
+def edit_card_test(browser, test_data: dict):
+    email = test_data.get("email")
+    password = test_data.get("password")
 
-    # board_page.drag_card()
+    auth_page = AuthPage(browser)
+    auth_page.go()
+    auth_page.login_as(email, password)
 
-    # board_page.delete_board()
-    # info = board_page.get_close_board_info()
+    #     text = """Эта доска закрыта. Чтобы изменить доску, ее нужно открыть.
+    # Открыть доску заново"""
+    board_page = BoardPage(browser)
 
-    # with allure.step("Проверить, что доска закрылась"):
-    #     with allure.step("Должна быть строка " + text):
-    #         assert info == text
+    board_page.update_card()
+    info = board_page.get_color_label_info()
+
+    color = "rgba(33, 110, 78, 1)"
+    with allure.step("Проверить цвет метки"):
+        with allure.step("Должен быть цвет " + color):
+            assert info == color
+
+
+def drag_card_test(browser, test_data: dict):
+    email = test_data.get("email")
+    password = test_data.get("password")
+
+    auth_page = AuthPage(browser)
+    auth_page.go()
+    auth_page.login_as(email, password)
+
+    board_page = BoardPage(browser)
+
+    board_page.drag_card()
+    info = board_page.get_drag_card_name_info()
+
+    title_card = "Тестовая карточка 1"
+    with allure.step("Проверить, что карточка переместилась"):
+        with allure.step(
+            '"В процеесе" должен содержать карточку с названием' + title_card
+        ):
+            assert info == title_card
+
+
+def delete_board_test(browser, test_data: dict):
+    email = test_data.get("email")
+    password = test_data.get("password")
+
+    auth_page = AuthPage(browser)
+    auth_page.go()
+    auth_page.login_as(email, password)
+
+    board_page = BoardPage(browser)
+
+    board_page.delete_board()
+    info = board_page.get_close_board_info()
+
+    text = "Эта доска закрыта. Чтобы изменить доску, ее нужно открыть."
+    with allure.step("Проверить, что доска закрылась"):
+        with allure.step("Должна быть строка " + text):
+            assert info == text
